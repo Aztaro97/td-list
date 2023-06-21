@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
+  "engine": {
+    "node": "16.16.0",
+	"pnpm": "8.6.1"
+  },
   "scripts": {
     "build": "npx tsc",
     "server": "nodemon ./server/index",
     "client": "pnpm dev --prefix frontend",
     "dev": "concurrently \"pnpm run server\" \"pnpm run client\"",
-	"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false pnpm install --force --prefix frontend && pnpm run build --prefix frontend"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false pnpm install --force --prefix frontend && pnpm run build --prefix frontend"
   },
   "keywords": [],
   "author": "",
