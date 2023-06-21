@@ -10,7 +10,6 @@ import connectDB from './config/db'
 import userRoutes from './routes/userRoutes'
 import projectRoutes from './routes/projectRoutes'
 
-
 dotenv.config()
 
 connectDB()

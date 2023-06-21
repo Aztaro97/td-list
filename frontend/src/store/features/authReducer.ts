@@ -65,21 +65,6 @@ const userSlide = createSlice({
 				userInfo: {},
 			};
 		},
-		// setCredentials: (state, action: any) => {
-		// 	const { email, name, password, token, id } = action.payload;
-		// 	state.userInfo?.email = email as string;
-		// 	state.userInfo?.name = name;
-		// 	state.userInfo?.id = id;
-		// 	state.userInfo?.password = password;
-		// 	state.token = token;
-		// 	return {
-		// 		...state,
-		// 		userInfo: {
-
-		// 		}
-
-		// 	}
-		// },
 	},
 	extraReducers: (builder) => {
 		builder.addCase(login.pending, (state) => {
@@ -121,7 +106,10 @@ const userSlide = createSlice({
 		builder.addCase(createUser.fulfilled, (state, action) => {
 			return {
 				...state,
-				userInfo: action.payload.user,
+				userInfo: {
+					...action.payload,
+				},
+				token: action.payload.token,
 				isLoading: false,
 				isAuthenticated: true,
 			};

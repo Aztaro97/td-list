@@ -7,7 +7,7 @@ import { protect, admin } from '../middleware/authMiddleware'
 
 const router = express.Router()
 
-router.route('/register').post(registerUser)
 router.post('/login', authUser)
+router.route('/register').post(registerUser)
 
 export default router
