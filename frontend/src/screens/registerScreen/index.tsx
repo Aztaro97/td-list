@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { createUser } from "@/store/features/authReducer";
 import { registerSchema } from "@/schemaValidator";
+import FieldErrorMessage from "@/components/fieldErrorMessage";
 
 type TRegister = z.infer<typeof registerSchema>;
 
@@ -26,12 +27,18 @@ const RegisterScreen = () => {
 
   const { isAuthenticated } = useAppSelector((state) => state.auth);
 
-  const { handleSubmit, control } = useForm<TRegister>({
+  const {
+    handleSubmit,
+    control,
+    formState: { errors, isValid },
+  } = useForm<TRegister>({
     resolver: zodResolver(registerSchema),
   });
 
   const onSubmit = (data: TRegister) => {
-    dispatch(createUser(data as any));
+    if (isValid) {
+      dispatch(createUser(data as any));
+    }
   };
 
   useEffect(() => {
@@ -58,64 +65,66 @@ const RegisterScreen = () => {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box
-            component="form"
-            noValidate
-            sx={{ mt: 3 }}
-          >
+          <Box component="form" noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={12}>
-                <Controller
-                  name={"name"}
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <TextField
-                      autoFocus
-                      margin="normal"
-                      required
-                      fullWidth
-                      label="Full Name"
-                      type="text"
-                      autoComplete="given-name"
-                      onChange={onChange}
-                      value={value}
-                    />
-                  )}
-                />
+                <FieldErrorMessage errors={errors} name="name">
+                  <Controller
+                    name={"name"}
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <TextField
+                        autoFocus
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Full Name"
+                        type="text"
+                        autoComplete="given-name"
+                        onChange={onChange}
+                        value={value}
+                      />
+                    )}
+                  />
+                </FieldErrorMessage>
               </Grid>
               <Grid item xs={12}>
-                <Controller
-                  name={"email"}
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <TextField
-                      margin="normal"
-                      required
-                      fullWidth
-                      label="Email Address"
-                      autoComplete="email"
-                      onChange={onChange}
-                      value={value}
-                    />
-                  )}
-                />
+                <FieldErrorMessage errors={errors} name="email">
+                  <Controller
+                    name={"email"}
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Email Address"
+                        autoComplete="email"
+                        onChange={onChange}
+                        value={value}
+                      />
+                    )}
+                  />
+                </FieldErrorMessage>
               </Grid>
               <Grid item xs={12}>
-                <Controller
-                  name={"password"}
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <TextField
-                      margin="normal"
-                      required
-                      fullWidth
-                      label="Password"
-                      type="password"
-                      onChange={onChange}
-                      value={value}
-                    />
-                  )}
-                />
+                <FieldErrorMessage errors={errors} name="password">
+                  <Controller
+                    name={"password"}
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Password"
+                        type="password"
+                        onChange={onChange}
+                        value={value}
+                      />
+                    )}
+                  />
+                </FieldErrorMessage>
               </Grid>
             </Grid>
             <Button

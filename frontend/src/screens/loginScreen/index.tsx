@@ -17,6 +17,7 @@ import { loginSchema } from "@/schemaValidator";
 import { login } from "@/store/features/authReducer";
 import { useAppSelector } from "@/hook/toolkitHook";
 import { Link, useNavigate } from "react-router-dom";
+import FieldErrorMessage from "@/components/fieldErrorMessage";
 
 type TLogin = z.infer<typeof loginSchema>;
 
@@ -26,13 +27,18 @@ const LoginScreen: React.FC = () => {
 
   const { isAuthenticated } = useAppSelector((state) => state.auth);
 
-  const { handleSubmit, control } = useForm<TLogin>({
+  const {
+    handleSubmit,
+    control,
+    formState: { errors, isValid },
+  } = useForm<TLogin>({
     resolver: zodResolver(loginSchema),
   });
 
   const onSubmit = (data: TLogin) => {
-    console.log(data);
-    dispatch(login(data));
+    if (isValid) {
+      dispatch(login(data));
+    }
   };
 
   useEffect(() => {
@@ -60,39 +66,48 @@ const LoginScreen: React.FC = () => {
             Sign in
           </Typography>
           <Box component="form" noValidate sx={{ mt: 1 }}>
-            <Controller
-              name={"email"}
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  label="Email Address"
-                  autoComplete="email"
-                  autoFocus
-                  onChange={onChange}
-                  value={value}
-                />
-              )}
-            />
-
-            <Controller
-              name={"password"}
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  label="Password"
-                  type="password"
-                  autoComplete="current-password"
-                  onChange={onChange}
-                  value={value}
-                />
-              )}
-            />
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={12}>
+                <FieldErrorMessage errors={errors} name="email">
+                  <Controller
+                    name={"email"}
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Email Address"
+                        autoComplete="email"
+                        autoFocus
+                        onChange={onChange}
+                        value={value}
+                      />
+                    )}
+                  />
+                </FieldErrorMessage>
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <FieldErrorMessage errors={errors} name="password">
+                  <Controller
+                    name={"password"}
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Password"
+                        type="password"
+                        autoComplete="current-password"
+                        onChange={onChange}
+                        value={value}
+                      />
+                    )}
+                  />
+                </FieldErrorMessage>
+              </Grid>
+            </Grid>
             <Button
               type="submit"
               fullWidth
@@ -104,9 +119,7 @@ const LoginScreen: React.FC = () => {
             </Button>
             <Grid container>
               <Grid item>
-                <Link to="/register">
-                  {"Don't have an account? Sign Up"}
-                </Link>
+                <Link to="/register">{"Don't have an account? Sign Up"}</Link>
               </Grid>
             </Grid>
           </Box>

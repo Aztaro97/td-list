@@ -1,18 +1,32 @@
 import z from "zod"
 
 export const todoSchema = z.object({
-	title: z.string(),
-	description: z.string(),
+	title: z.string({
+		required_error: "The title is required"
+	}),
+	description: z.string({
+		required_error: "The description is required"
+	}),
 	isDone: z.boolean().optional()
 })
 
 export const loginSchema = z.object({
-	email: z.string(),
-	password: z.string(),
+	email: z.string({
+		required_error: "The email is required"
+	}),
+	password: z.string({
+		required_error: "The password is required"
+	}),
 })
 
 export const registerSchema = z.object({
-	name: z.string(),
-	email: z.string(),
-	password: z.string(),
+	name: z.string({
+		required_error: "The full name is required"
+	}),
+	email: z.string({
+		required_error: "The email is required"
+	}),
+	password: z.string({
+		required_error: "The password is required"
+	}),
 })

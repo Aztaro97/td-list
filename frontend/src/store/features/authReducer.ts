@@ -124,6 +124,6 @@ const userSlide = createSlice({
 	}
 });
 
-export const { resetError, logOut, resetDoneCreate, resetDoneForgot } = userSlide.actions;
+export const { logOut } = userSlide.actions;
 
 export default userSlide.reducer;

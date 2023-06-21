@@ -15,6 +15,7 @@ import React, { FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { z } from "zod";
+import FieldErrorMessage from "../fieldErrorMessage";
 
 interface props {
   openModal: boolean;
@@ -27,14 +28,21 @@ const InputFieldModal: FC<props> = ({ openModal, setOpenModal }) => {
   const dispatch = useDispatch();
   const { isCreating } = useAppSelector((state) => state.project);
 
-  const { handleSubmit, control, reset } = useForm<TTodo>({
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors, isValid },
+  } = useForm<TTodo>({
     resolver: zodResolver(todoSchema),
   });
 
   const onSubmit = (data: TTodo) => {
-    dispatch(createProject(data));
-    reset();
-    setOpenModal(false);
+    if (isValid) {
+      dispatch(createProject(data));
+      reset();
+      setOpenModal(false);
+    }
   };
 
   const handleClose = () => {
@@ -50,35 +58,39 @@ const InputFieldModal: FC<props> = ({ openModal, setOpenModal }) => {
               marginTop: 1,
             }}
           >
-            <Controller
-              name={"title"}
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  label="Enter your task name"
-                  name="title"
-                  onChange={onChange}
-                  value={value}
-                />
-              )}
-            />
-            <Controller
-              name={"description"}
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  label="Enter your task description"
-                  onChange={onChange}
-                  value={value}
-                />
-              )}
-            />
+            <FieldErrorMessage errors={errors} name="title">
+              <Controller
+                name={"title"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    label="Enter your task name"
+                    name="title"
+                    onChange={onChange}
+                    value={value}
+                  />
+                )}
+              />
+            </FieldErrorMessage>
+            <FieldErrorMessage errors={errors} name="description">
+              <Controller
+                name={"description"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    label="Enter your task description"
+                    onChange={onChange}
+                    value={value}
+                  />
+                )}
+              />
+            </FieldErrorMessage>
           </Box>
           <Button
             type="submit"
