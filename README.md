@@ -58,6 +58,7 @@ pnpm dev
 - [MongoDB](https://www.mongodb.com/)
 - [Redux](https://redux.js.org/)
 - [Material UI](https://mui.com/)
+- [Beautiful and accessible drag and drop for lists with React](https://github.com/atlassian/react-beautiful-dnd)
 - [bcrypt](https://www.npmjs.com/package/bcryptjs)
 - [React Hook Form](https://react-hook-form.com/)
 
