@@ -1,5 +1,7 @@
 import { TUser } from "@/@types";
 import { axiosPrivate } from "@/api";
+import { TLogin } from "@/screens/loginScreen";
+import { TRegister } from "@/screens/registerScreen";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface authProps {
@@ -18,7 +20,7 @@ const initialState: authProps = {
 	token: null
 };
 
-export const login = createAsyncThunk("auth/sign_it", async (body, thunkApi) => {
+export const login = createAsyncThunk("auth/sign_it", async (body: TLogin, thunkApi) => {
 	try {
 		const result = await axiosPrivate.post("/users/login", body);
 		return result.data;
@@ -29,7 +31,7 @@ export const login = createAsyncThunk("auth/sign_it", async (body, thunkApi) => 
 
 export const createUser = createAsyncThunk(
 	"auth/create_user",
-	async (body, { getState, rejectWithValue }) => {
+	async (body: TRegister, { getState, rejectWithValue }) => {
 		try {
 			const result = await axiosPrivate.post("/users/register", body);
 			return result.data;
@@ -62,7 +64,7 @@ const userSlide = createSlice({
 			return {
 				...state,
 				isAuthenticated: false,
-				userInfo: {},
+				userInfo: null,
 			};
 		},
 	},

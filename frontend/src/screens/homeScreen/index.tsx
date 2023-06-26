@@ -4,16 +4,15 @@ import { Box, Button, CircularProgress } from "@mui/material";
 import { ITodo } from "@/@types";
 import InputFieldModal from "@/components/inputFieldModal";
 import TodoListItem from "@/components/todoListItem";
-import { useDispatch } from "react-redux";
 import { getAllProject, updateStatus } from "@/store/features/projectReducer";
-import { useAppSelector } from "@/hook/toolkitHook";
+import { useAppDispatch, useAppSelector } from "@/hook/toolkitHook";
 
 const HomeScreen = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [todos, setTodos] = useState<Array<ITodo>>([]);
 
   const { data, error, isLoading } = useAppSelector((state) => state.project);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [todosComplete, setTodosComplete] = useState<Array<ITodo>>([]);
 
@@ -58,7 +57,6 @@ const HomeScreen = () => {
 
   useEffect(() => {
     dispatch(getAllProject());
-    ``;
   }, [dispatch]);
 
   //   Filter the data by split to todos and completetodo when component umount

@@ -11,18 +11,17 @@ import Container from "@mui/material/Container";
 import Copyright from "@/components/copyright";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useDispatch } from "react-redux";
 import z from "zod";
 import { loginSchema } from "@/schemaValidator";
 import { login } from "@/store/features/authReducer";
-import { useAppSelector } from "@/hook/toolkitHook";
+import { useAppDispatch, useAppSelector } from "@/hook/toolkitHook";
 import { Link, useNavigate } from "react-router-dom";
 import FieldErrorMessage from "@/components/fieldErrorMessage";
 
-type TLogin = z.infer<typeof loginSchema>;
+export type TLogin = z.infer<typeof loginSchema>;
 
 const LoginScreen: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const { isAuthenticated } = useAppSelector((state) => state.auth);

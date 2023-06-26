@@ -50,7 +50,8 @@ export const updateProject = createAsyncThunk("auth/updated", async (data: ITodo
 });
 
 // Create Project
-export const createProject = createAsyncThunk("auth/create_project", async (data, thunkApi) => {
+type TnewProject = Omit<ITodo, "_id" | "isDone">
+export const createProject = createAsyncThunk("auth/create_project", async (data: TnewProject, thunkApi) => {
 	try {
 		const result = await axiosPrivate.post("/projects/create", data);
 		return result.data;

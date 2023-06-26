@@ -10,19 +10,18 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Copyright from "@/components/copyright";
 import { Controller, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppSelector } from "@/hook/toolkitHook";
+import { useAppDispatch, useAppSelector } from "@/hook/toolkitHook";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { createUser } from "@/store/features/authReducer";
 import { registerSchema } from "@/schemaValidator";
 import FieldErrorMessage from "@/components/fieldErrorMessage";
 
-type TRegister = z.infer<typeof registerSchema>;
+export type TRegister = z.infer<typeof registerSchema>;
 
 const RegisterScreen = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const { isAuthenticated } = useAppSelector((state) => state.auth);
@@ -37,7 +36,7 @@ const RegisterScreen = () => {
 
   const onSubmit = (data: TRegister) => {
     if (isValid) {
-      dispatch(createUser(data as any));
+      dispatch(createUser(data));
     }
   };
 

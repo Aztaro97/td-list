@@ -1,6 +1,6 @@
 import { ITodo } from "@/@types";
-import { useAppSelector } from "@/hook/toolkitHook";
-import { todoSchema } from "@/schemaValidator";
+import { useAppDispatch, useAppSelector } from "@/hook/toolkitHook";
+import { createTodoSchema } from "@/schemaValidator";
 import { createProject } from "@/store/features/projectReducer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import React, { FC } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
 import { z } from "zod";
 import FieldErrorMessage from "../fieldErrorMessage";
 
@@ -22,10 +21,10 @@ interface props {
   setOpenModal: (value: boolean) => void;
 }
 
-type TTodo = z.infer<typeof todoSchema>;
+type TTodo = z.infer<typeof createTodoSchema>;
 
 const InputFieldModal: FC<props> = ({ openModal, setOpenModal }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { isCreating } = useAppSelector((state) => state.project);
 
   const {
@@ -34,7 +33,7 @@ const InputFieldModal: FC<props> = ({ openModal, setOpenModal }) => {
     reset,
     formState: { errors, isValid },
   } = useForm<TTodo>({
-    resolver: zodResolver(todoSchema),
+    resolver: zodResolver(createTodoSchema),
   });
 
   const onSubmit = (data: TTodo) => {

@@ -1,5 +1,5 @@
 import { ITodo } from "@/@types";
-import { useAppSelector } from "@/hook/toolkitHook";
+import { useAppDispatch, useAppSelector } from "@/hook/toolkitHook";
 import { todoSchema } from "@/schemaValidator";
 import { updateProject } from "@/store/features/projectReducer";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,7 +26,7 @@ interface props {
 type TTodo = z.infer<typeof todoSchema>;
 
 const EditFormModal: FC<props> = ({ showModal, setShowModal, todo }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { isUpdating } = useAppSelector((state) => state.project);
 
   const {

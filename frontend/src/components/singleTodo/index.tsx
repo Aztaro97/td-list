@@ -1,9 +1,9 @@
 import { ITodo } from "@/@types";
+import { useAppDispatch } from "@/hook/toolkitHook";
 import { deleteProject, updateStatus } from "@/store/features/projectReducer";
 import { Box, Button, Checkbox, Paper, Stack, Typography } from "@mui/material";
 import React, { FC, useEffect, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
-import { useDispatch } from "react-redux";
 import EditFormModal from "../editFormModal";
 
 interface singleTodoProps {
@@ -19,7 +19,7 @@ const SingleTodo: FC<singleTodoProps> = ({ todo, index }) => {
   const [isComplete, setIsComplete] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onUpdateStatus = () => {
     dispatch(updateStatus(todo));
@@ -56,7 +56,7 @@ const SingleTodo: FC<singleTodoProps> = ({ todo, index }) => {
                 <Button onClick={() => setShowModal(true)}>Edit</Button>
                 <Button
                   color="warning"
-                  onClick={() => dispatch(deleteProject(todo._id as string))}
+                  onClick={() => dispatch(deleteProject(todo._id))}
                 >
                   delete
                 </Button>

@@ -1,5 +1,14 @@
 import z from "zod"
 
+export const createTodoSchema = z.object({
+	title: z.string({
+		required_error: "The title is required"
+	}),
+	description: z.string({
+		required_error: "The description is required"
+	}),
+})
+
 export const todoSchema = z.object({
 	title: z.string({
 		required_error: "The title is required"
@@ -9,6 +18,7 @@ export const todoSchema = z.object({
 	}),
 	isDone: z.boolean().optional()
 })
+
 
 export const loginSchema = z.object({
 	email: z.string({
